@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Early-Stress Tracker",
+  "version": "1.0.0",
+  "description": "Tracks tab switches and screen time to help detect early stress signals.",
+  "permissions": [
+    "tabs",
+    "idle",
+    "storage",
+    "alarms",
+    "notifications"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

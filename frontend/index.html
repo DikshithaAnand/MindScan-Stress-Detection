@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindScan — AI Wellness Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ────────────────────────────────────────────────────────── TOKENS */
+:root {
+  --bg:        #0b0f1a;
+  --bg2:       #111827;
+  --bg3:       #1a2235;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --teal:      #2dd4bf;
+  --teal-dim:  rgba(45,212,191,0.15);
+  --teal-glow: rgba(45,212,191,0.3);
+  --green:     #34d399;
+  --amber:     #fbbf24;
+  --red:       #f87171;
+  --text:      #f1f5f9;
+  --text2:     #94a3b8;
+  --text3:     #475569;
+  --r:         14px;
+  --r2:        22px;
+  --shadow:    0 4px 24px rgba(0,0,0,.4);
+  --shadow-lg: 0 16px 64px rgba(0,0,0,.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ────────────────────────────────────────────────────────── PAGES */
+.page{display:none;min-height:100vh;animation:fadeUp .35s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ────────────────────────────────────────────────────────── NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 48px;
+  background:rgba(11,15,26,.8);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:800;
+  color:var(--text);cursor:pointer;letter-spacing:-.5px;
+}
+.nav-logo span{color:var(--teal)}
+.nav-links{display:flex;gap:10px}
+.btn-nav{
+  padding:9px 22px;border-radius:50px;font-size:13.5px;
+  font-weight:500;cursor:pointer;transition:all .2s;
+  font-family:'DM Sans',sans-serif;letter-spacing:.01em;
+}
+.btn-ghost{background:transparent;border:1.5px solid var(--border2);color:var(--text2)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+.btn-teal{background:var(--teal);border:1.5px solid var(--teal);color:#0b0f1a;font-weight:600}
+.btn-teal:hover{background:#14b8a6}
+
+/* ────────────────────────────────────────────────────────── LANDING */
+#page-land{padding-top:0}
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:120px 48px 80px;
+  position:relative;overflow:hidden;
+}
+.hero-glow1{
+  position:absolute;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(45,212,191,.12) 0%,transparent 70%);
+  top:-100px;right:-100px;pointer-events:none;
+}
+.hero-glow2{
+  position:absolute;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(52,211,153,.08) 0%,transparent 70%);
+  bottom:0;left:0;pointer-events:none;
+}
+.hero-content{position:relative;max-width:580px;z-index:1}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--teal-dim);border:1px solid rgba(45,212,191,.25);
+  color:var(--teal);padding:6px 16px;border-radius:50px;
+  font-size:12.5px;font-weight:500;letter-spacing:.03em;
+  margin-bottom:28px;text-transform:uppercase;
+}
+.hero-pill::before{
+  content:'';width:7px;height:7px;
+  background:var(--teal);border-radius:50%;
+  animation:blink 2s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(42px,5.5vw,72px);
+  line-height:1.08;font-weight:800;
+  letter-spacing:-2px;color:var(--text);
+  margin-bottom:24px;
+}
+.hero h1 .accent{
+  background:linear-gradient(135deg,var(--teal) 0%,var(--green) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero p{
+  font-size:17px;line-height:1.75;color:var(--text2);
+  margin-bottom:40px;max-width:460px;
+}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.btn-hero{
+  padding:15px 36px;border-radius:50px;font-size:15px;
+  font-weight:600;cursor:pointer;transition:all .25s;
+  font-family:'DM Sans',sans-serif;border:none;
+}
+.btn-hero-primary{
+  background:linear-gradient(135deg,var(--teal),var(--green));
+  color:#0b0f1a;
+  box-shadow:0 8px 32px var(--teal-glow);
+}
+.btn-hero-primary:hover{transform:translateY(-2px);box-shadow:0 14px 48px var(--teal-glow)}
+.btn-hero-secondary{
+  background:transparent;color:var(--text);
+  border:1.5px solid var(--border2);padding:13px 34px;
+}
+.btn-hero-secondary:hover{border-color:var(--teal);color:var(--teal)}
+
+/* Hero visual */
+.hero-visual{
+  position:absolute;right:48px;top:50%;transform:translateY(-50%);
+  width:420px;height:420px;
+}
+.orbit{position:absolute;border-radius:50%;border:1px solid;inset:50%}
+.o1{width:380px;height:380px;margin:-190px;border-color:rgba(45,212,191,.1);animation:spin 24s linear infinite}
+.o2{width:270px;height:270px;margin:-135px;border-color:rgba(45,212,191,.15);animation:spin 16s linear infinite reverse}
+.o3{width:160px;height:160px;margin:-80px;border-color:rgba(45,212,191,.2);animation:spin 10s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-core{
+  position:absolute;inset:50%;width:120px;height:120px;
+  margin:-60px;
+  background:linear-gradient(145deg,var(--bg2),var(--bg3));
+  border-radius:28px;border:1px solid var(--border2);
+  box-shadow:var(--shadow-lg),0 0 40px var(--teal-glow);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:44px;z-index:1;gap:4px;
+}
+.hero-core-label{font-size:11px;font-weight:600;color:var(--teal);letter-spacing:.05em}
+.float-badge{
+  position:absolute;background:var(--bg2);border:1px solid var(--border2);
+  border-radius:10px;padding:10px 14px;font-size:12px;font-weight:500;
+  white-space:nowrap;box-shadow:var(--shadow);
+}
+.fb1{top:55px;right:20px;color:var(--green);animation:fl 3s ease-in-out infinite}
+.fb2{bottom:75px;right:35px;color:var(--amber);animation:fl 3s ease-in-out infinite .9s}
+.fb3{top:150px;left:10px;color:var(--teal);animation:fl 3s ease-in-out infinite 1.8s}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* How it works */
+.section{padding:96px 48px}
+.sec-label{
+  font-size:12px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:14px;
+}
+.sec-title{
+  font-family:'Syne',sans-serif;font-size:clamp(28px,3vw,44px);
+  font-weight:800;letter-spacing:-1px;color:var(--text);margin-bottom:14px;
+}
+.sec-sub{font-size:16px;color:var(--text2);max-width:480px;line-height:1.65}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:52px}
+.step{
+  background:var(--bg2);border-radius:var(--r2);padding:28px 24px;
+  border:1px solid var(--border);transition:all .25s;
+}
+.step:hover{border-color:rgba(45,212,191,.3);transform:translateY(-4px);box-shadow:var(--shadow)}
+.step-n{
+  width:44px;height:44px;background:var(--teal-dim);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:18px;font-weight:800;
+  color:var(--teal);margin-bottom:18px;
+}
+.step h3{font-size:17px;font-weight:600;margin-bottom:8px;color:var(--text)}
+.step p{font-size:14px;color:var(--text2);line-height:1.6}
+
+/* Features grid */
+.features{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;margin-top:52px;
+}
+.feat{
+  background:var(--bg2);border-radius:var(--r2);padding:28px;
+  border:1px solid var(--border);
+}
+.feat-icon{font-size:32px;margin-bottom:16px}
+.feat h3{font-size:16px;font-weight:600;margin-bottom:8px}
+.feat p{font-size:14px;color:var(--text2);line-height:1.6}
+
+/* CTA section */
+.cta-section{
+  padding:96px 48px;text-align:center;
+  background:linear-gradient(180deg,transparent,rgba(45,212,191,.04));
+}
+.cta-section .sec-title{text-align:center}
+.cta-section .sec-sub{margin:0 auto 36px;text-align:center}
+
+/* Footer */
+footer{
+  padding:32px 48px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:13px;color:var(--text3);
+}
+
+/* ────────────────────────────────────────────────────────── AUTH */
+.auth-wrap{
+  min-height:100vh;display:flex;align-items:center;
+  justify-content:center;padding:100px 24px 40px;
+}
+.auth-card{
+  width:100%;max-width:420px;
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:40px;
+  box-shadow:var(--shadow-lg);
+}
+.auth-card h2{
+  font-family:'Syne',sans-serif;font-size:26px;font-weight:800;
+  letter-spacing:-.5px;margin-bottom:6px;
+}
+.auth-card .sub{font-size:14px;color:var(--text2);margin-bottom:32px}
+
+.form-group{margin-bottom:18px}
+.form-group label{
+  display:block;font-size:13px;font-weight:500;
+  color:var(--text2);margin-bottom:7px;
+}
+.form-group input{
+  width:100%;padding:12px 14px;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:10px;color:var(--text);font-size:14.5px;
+  font-family:'DM Sans',sans-serif;outline:none;transition:border .2s;
+}
+.form-group input:focus{border-color:var(--teal)}
+.btn-auth{
+  width:100%;padding:13px;border-radius:10px;
+  background:linear-gradient(135deg,var(--teal),var(--green));
+  color:#0b0f1a;font-size:15px;font-weight:700;
+  border:none;cursor:pointer;transition:all .2s;
+  font-family:'DM Sans',sans-serif;margin-top:4px;
+}
+.btn-auth:hover{opacity:.9;transform:translateY(-1px)}
+.auth-switch{
+  text-align:center;margin-top:20px;font-size:13.5px;color:var(--text2);
+}
+.auth-switch a{color:var(--teal);cursor:pointer;text-decoration:none;font-weight:500}
+.auth-switch a:hover{text-decoration:underline}
+.auth-err{
+  background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);
+  color:#fca5a5;border-radius:8px;padding:10px 14px;
+  font-size:13.5px;margin-bottom:16px;display:none;
+}
+.auth-err.show{display:block}
+
+/* ────────────────────────────────────────────────────────── DASHBOARD */
+#page-dash{padding-top:72px}
+.dash-layout{display:flex;min-height:calc(100vh - 72px)}
+
+/* Sidebar */
+.sidebar{
+  width:220px;min-height:calc(100vh - 72px);
+  background:var(--bg2);border-right:1px solid var(--border);
+  padding:28px 16px;position:fixed;top:72px;left:0;
+  display:flex;flex-direction:column;gap:4px;z-index:100;
+}
+.sidebar a{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:10px;
+  font-size:14px;font-weight:500;color:var(--text2);
+  cursor:pointer;transition:all .18s;text-decoration:none;
+}
+.sidebar a:hover{background:var(--bg3);color:var(--text)}
+.sidebar a.active{background:var(--teal-dim);color:var(--teal)}
+.sidebar-icon{font-size:17px}
+.sidebar-spacer{flex:1}
+.sidebar-user{
+  padding:12px 14px;border-radius:10px;
+  background:var(--bg3);border:1px solid var(--border);
+}
+.sidebar-user-name{font-size:13px;font-weight:600;color:var(--text)}
+.sidebar-user-email{font-size:11.5px;color:var(--text3);margin-top:2px}
+
+/* Main content */
+.dash-main{
+  margin-left:220px;flex:1;padding:32px 36px;
+  max-width:calc(100% - 220px);
+}
+.dash-header{margin-bottom:32px}
+.dash-header h1{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  letter-spacing:-.5px;margin-bottom:4px;
+}
+.dash-header p{font-size:14px;color:var(--text2)}
+
+/* Tabs */
+.dash-tabs{display:none}
+.dash-pane{display:none}
+.dash-pane.active{display:block}
+
+/* Cards grid */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;margin-bottom:24px;
+}
+.card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:20px 18px;
+  transition:border-color .2s;
+}
+.card:hover{border-color:var(--border2)}
+.card-label{
+  font-size:11.5px;font-weight:500;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;
+}
+.card-val{
+  font-family:'Syne',sans-serif;font-size:32px;font-weight:800;
+  letter-spacing:-1px;line-height:1;margin-bottom:6px;
+}
+.card-sub{font-size:12px;color:var(--text3)}
+.card.accent{border-color:rgba(45,212,191,.25);background:linear-gradient(145deg,var(--bg2),rgba(45,212,191,.04))}
+.card-icon{font-size:24px;margin-bottom:10px}
+
+/* Stress gauge */
+.gauge-wrap{
+  display:flex;align-items:center;gap:20px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:24px;margin-bottom:24px;
+}
+.gauge-svg{flex-shrink:0}
+.gauge-info h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.5px}
+.gauge-info p{font-size:13px;color:var(--text2);margin-top:4px}
+.gauge-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.badge{
+  padding:5px 12px;border-radius:50px;font-size:12px;font-weight:600;
+}
+.badge-low{background:rgba(52,211,153,.15);color:#34d399}
+.badge-mod{background:rgba(251,191,36,.15);color:#fbbf24}
+.badge-high{background:rgba(248,113,113,.15);color:#f87171}
+
+/* Charts row */
+.charts-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;
+}
+.chart-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:24px;
+}
+.chart-card h4{
+  font-size:14px;font-weight:600;color:var(--text2);
+  margin-bottom:18px;
+}
+canvas{max-height:220px}
+
+/* Tips list */
+.tips-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:24px;margin-bottom:24px;
+}
+.tips-card h4{font-size:15px;font-weight:600;margin-bottom:16px}
+.tip-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 0;border-bottom:1px solid var(--border);
+}
+.tip-item:last-child{border-bottom:none}
+.tip-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--teal);flex-shrink:0;margin-top:5px;
+}
+.tip-text{font-size:14px;color:var(--text2);line-height:1.55}
+
+/* Insight items */
+.insights-card{
+  background:linear-gradient(145deg,var(--bg2),rgba(45,212,191,.04));
+  border:1px solid rgba(45,212,191,.2);
+  border-radius:var(--r2);padding:24px;margin-bottom:24px;
+}
+.insights-card h4{font-size:15px;font-weight:600;margin-bottom:16px;color:var(--teal)}
+.insight-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 0;border-bottom:1px solid var(--border);
+}
+.insight-item:last-child{border-bottom:none}
+.insight-icon{font-size:18px;flex-shrink:0}
+.insight-text{font-size:13.5px;line-height:1.55;color:var(--text2)}
+
+/* ────────────────────────────────────────────────────────── PREDICT FORM */
+.predict-form{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:32px;max-width:640px;
+}
+.predict-form h3{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:800;
+  letter-spacing:-.5px;margin-bottom:4px;
+}
+.predict-form .form-sub{font-size:14px;color:var(--text2);margin-bottom:28px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.range-group{
+  display:flex;flex-direction:column;gap:8px;
+  padding:14px;background:var(--bg3);border-radius:10px;
+  border:1px solid var(--border);
+}
+.range-group label{
+  display:flex;justify-content:space-between;
+  font-size:13px;font-weight:500;color:var(--text2);
+}
+.range-group label span{color:var(--teal);font-weight:700}
+input[type=range]{
+  width:100%;accent-color:var(--teal);cursor:pointer;
+  height:4px;border-radius:4px;
+}
+.mood-group{grid-column:1/-1}
+.mood-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.mood-btn{
+  padding:8px 16px;border-radius:50px;font-size:13px;
+  cursor:pointer;transition:all .18s;
+  background:var(--bg3);border:1.5px solid var(--border2);color:var(--text2);
+}
+.mood-btn.selected{
+  background:var(--teal-dim);border-color:var(--teal);color:var(--teal);font-weight:600;
+}
+.btn-predict{
+  width:100%;margin-top:20px;padding:14px;
+  border-radius:12px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--teal),var(--green));
+  color:#0b0f1a;font-size:15px;font-weight:700;
+  font-family:'DM Sans',sans-serif;transition:all .2s;
+}
+.btn-predict:hover{opacity:.9;transform:translateY(-1px)}
+.btn-predict:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* Result card */
+.result-card{
+  background:var(--bg2);border-radius:var(--r2);
+  padding:28px;margin-top:20px;border:1px solid var(--border);
+  display:none;
+}
+.result-card.show{display:block;animation:fadeUp .3s ease}
+.result-level{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  letter-spacing:-.5px;margin-bottom:8px;
+}
+.result-conf{font-size:14px;color:var(--text2);margin-bottom:20px}
+.prob-bars{display:flex;gap:10px;margin-bottom:20px}
+.prob-bar-wrap{flex:1;text-align:center}
+.prob-bar-wrap label{font-size:11px;color:var(--text3);display:block;margin-bottom:6px}
+.prob-bar-track{
+  height:6px;background:var(--bg3);border-radius:50px;overflow:hidden;
+}
+.prob-bar-fill{height:100%;border-radius:50px;transition:width .6s ease}
+.prob-val{font-size:12px;font-weight:700;margin-top:4px}
+
+/* History list */
+.history-list{display:flex;flex-direction:column;gap:12px}
+.hist-item{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r);padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hist-date{font-size:13px;color:var(--text3)}
+.hist-badge{
+  padding:5px 14px;border-radius:50px;font-size:12.5px;font-weight:600;
+}
+
+/* Behavior pane */
+.behavior-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;
+}
+.beh-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:24px;
+}
+.beh-card h4{font-size:14px;color:var(--text2);margin-bottom:10px}
+.beh-val{
+  font-family:'Syne',sans-serif;font-size:42px;font-weight:800;
+  color:var(--teal);letter-spacing:-2px;
+}
+.beh-unit{font-size:14px;color:var(--text3);margin-top:4px}
+
+/* Loading spinner */
+.spinner{
+  display:inline-block;width:16px;height:16px;
+  border:2px solid rgba(11,15,26,.3);border-top-color:#0b0f1a;
+  border-radius:50%;animation:spin .7s linear infinite;
+  vertical-align:middle;margin-right:8px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Consent modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  z-index:500;display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:36px;max-width:440px;width:100%;
+  box-shadow:var(--shadow-lg);
+}
+.modal h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:12px}
+.modal p{font-size:14px;line-height:1.65;color:var(--text2);margin-bottom:10px}
+.modal .disclaimer{
+  font-size:13px;color:var(--amber);margin-top:12px;margin-bottom:20px;
+}
+.modal-actions{display:flex;gap:10px}
+.btn-modal{
+  flex:1;padding:12px;border-radius:10px;font-size:14px;
+  font-weight:600;cursor:pointer;border:none;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-modal-primary{background:var(--teal);color:#0b0f1a}
+.btn-modal-ghost{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
+
+/* Toasts */
+.toast-wrap{
+  position:fixed;bottom:24px;right:24px;z-index:999;
+  display:flex;flex-direction:column;gap:8px;
+}
+.toast{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:12px;padding:12px 18px;font-size:13.5px;
+  box-shadow:var(--shadow);min-width:220px;
+  animation:slideIn .25s ease;
+}
+.toast.success{border-color:rgba(52,211,153,.4);color:#34d399}
+.toast.error{border-color:rgba(248,113,113,.4);color:#f87171}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+
+/* Responsive */
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .hero{padding:100px 20px 60px;flex-direction:column}
+  .hero-visual{display:none}
+  .section{padding:60px 20px}
+  .sidebar{display:none}
+  .dash-main{margin-left:0;max-width:100%;padding:20px}
+  .charts-row{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .behavior-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:10px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-logo" onclick="goHome()">Mind<span>Scan</span></div>
+  <div class="nav-links" id="nav-links">
+    <button class="btn-nav btn-ghost" onclick="showPage('login')">Log in</button>
+    <button class="btn-nav btn-teal" onclick="showPage('signup')">Get Started</button>
+  </div>
+  <div class="nav-links" id="nav-links-auth" style="display:none">
+    <span style="font-size:14px;color:var(--text2)" id="nav-username"></span>
+    <button class="btn-nav btn-ghost" onclick="logout()">Sign out</button>
+  </div>
+</nav>
+
+<!-- ─── CONSENT MODAL ────────────────────────────────────────────── -->
+<div class="modal-overlay" id="consent-modal" style="display:none">
+  <div class="modal">
+    <h3>🔒 Privacy First</h3>
+    <p>MindScan collects <strong>lifestyle inputs</strong> you enter manually, plus optional behavior signals from our Chrome Extension (tab switches, screen time).</p>
+    <p>We store <strong>no browsing content</strong>, no URLs, and no personal communications. All data is used exclusively to improve your wellness insights.</p>
+    <p class="disclaimer">⚠️ MindScan is not a medical diagnosis system. For clinical support, please consult a healthcare professional.</p>
+    <div class="modal-actions">
+      <button class="btn-modal btn-modal-ghost" onclick="denyConsent()">Decline</button>
+      <button class="btn-modal btn-modal-primary" onclick="acceptConsent()">I Understand</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-wrap" id="toasts"></div>
+
+<!-- ═══════════════════════════════════════════════════ LANDING PAGE -->
+<div id="page-land" class="page active">
+  <section class="hero">
+    <div class="hero-glow1"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-content">
+      <div class="hero-pill">AI-Powered Wellness</div>
+      <h1>Detect stress<br>before it<br><span class="accent">controls you.</span></h1>
+      <p>MindScan analyses your sleep, study habits, and digital behaviour patterns to predict and prevent mental stress — early, accurately, and privately.</p>
+      <div class="hero-cta">
+        <button class="btn-hero btn-hero-primary" onclick="showPage('signup')">Start Free →</button>
+        <button class="btn-hero btn-hero-secondary" onclick="scrollToHow()">See How It Works</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="orbit o1"></div>
+      <div class="orbit o2"></div>
+      <div class="orbit o3"></div>
+      <div class="hero-core">🧠<div class="hero-core-label">ML MODEL</div></div>
+      <div class="float-badge fb1">✅ Low stress detected</div>
+      <div class="float-badge fb2">📊 92% confidence</div>
+      <div class="float-badge fb3">💤 Sleep analysis</div>
+    </div>
+  </section>
+
+  <section class="section" id="how-it-works">
+    <div class="sec-label">How It Works</div>
+    <div class="sec-title">Three steps to clearer wellbeing</div>
+    <div class="sec-sub">MindScan combines your self-reported data with automatic behaviour tracking for a complete picture.</div>
+    <div class="steps">
+      <div class="step"><div class="step-n">01</div><h3>Track Your Habits</h3><p>Log sleep, study hours, mood, and screen time. The Chrome Extension automates tab-switch and active-time tracking.</p></div>
+      <div class="step"><div class="step-n">02</div><h3>AI Analysis</h3><p>Our Random Forest model analyses 7 lifestyle signals to predict your stress level with high accuracy.</p></div>
+      <div class="step"><div class="step-n">03</div><h3>Smart Insights</h3><p>Get personalised, human-friendly recommendations tailored to your specific pattern of stress signals.</p></div>
+      <div class="step"><div class="step-n">04</div><h3>Track Over Time</h3><p>View your stress trend charts, focus scores, and weekly patterns to build lasting healthy habits.</p></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="sec-label">Features</div>
+    <div class="sec-title">Everything you need</div>
+    <div class="features">
+      <div class="feat"><div class="feat-icon">🤖</div><h3>ML Prediction</h3><p>Random Forest trained on 4,000+ synthetic samples across 7 behavioural features.</p></div>
+      <div class="feat"><div class="feat-icon">📊</div><h3>Live Dashboard</h3><p>Stress gauge, confidence charts, focus score, and 7-day trend — all in one place.</p></div>
+      <div class="feat"><div class="feat-icon">🔌</div><h3>Chrome Extension</h3><p>Automatic tab-switch and screen-time tracking synced securely to your account.</p></div>
+      <div class="feat"><div class="feat-icon">💡</div><h3>Smart Insights</h3><p>Contextual, plain-language recommendations based on your exact stress profile.</p></div>
+      <div class="feat"><div class="feat-icon">🔐</div><h3>Privacy First</h3><p>No browsing content collected. JWT-secured API. Environment-variable secrets.</p></div>
+      <div class="feat"><div class="feat-icon">📈</div><h3>Trend History</h3><p>30-prediction rolling history with date-stamped results to spot patterns.</p></div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="sec-label">Get Started</div>
+    <div class="sec-title">Your wellbeing data is waiting.</div>
+    <div class="sec-sub">Join students and professionals who use MindScan to stay ahead of burnout.</div>
+    <button class="btn-hero btn-hero-primary" onclick="showPage('signup')">Create Free Account →</button>
+  </section>
+
+  <footer>
+    <span>© 2025 MindScan · AI Wellness Platform</span>
+    <span>Not a medical device. For wellness insights only.</span>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ LOGIN PAGE -->
+<div id="page-login" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h2>Welcome back</h2>
+      <div class="sub">Sign in to your MindScan account</div>
+      <div class="auth-err" id="login-err"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="login-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"></div>
+      <button class="btn-auth" id="btn-login" onclick="doLogin()">Sign In</button>
+      <div class="auth-switch">Don't have an account? <a onclick="showPage('signup')">Create one free</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ SIGNUP PAGE -->
+<div id="page-signup" class="page">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h2>Create account</h2>
+      <div class="sub">Start tracking your wellbeing in 30 seconds</div>
+      <div class="auth-err" id="signup-err"></div>
+      <div class="form-group"><label>Full Name</label><input type="text" id="signup-name" placeholder="Alex Johnson"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="signup-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="signup-pass" placeholder="Min. 6 characters"></div>
+      <button class="btn-auth" id="btn-signup" onclick="doSignup()">Create Account</button>
+      <div class="auth-switch">Already have an account? <a onclick="showPage('login')">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ DASHBOARD -->
+<div id="page-dash" class="page">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <a class="active" onclick="showPane('overview')" id="tab-overview"><span class="sidebar-icon">📊</span> Overview</a>
+      <a onclick="showPane('predict')" id="tab-predict"><span class="sidebar-icon">🧠</span> Check Stress</a>
+      <a onclick="showPane('behavior')" id="tab-behavior"><span class="sidebar-icon">🖥️</span> Behaviour</a>
+      <a onclick="showPane('history')" id="tab-history"><span class="sidebar-icon">📅</span> History</a>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-user">
+        <div class="sidebar-user-name" id="sidebar-name">—</div>
+        <div class="sidebar-user-email" id="sidebar-email">—</div>
+      </div>
+    </aside>
+
+    <main class="dash-main">
+      <!-- OVERVIEW PANE -->
+      <div id="pane-overview" class="dash-pane active">
+        <div class="dash-header">
+          <h1>Good <span id="time-of-day">day</span>, <span id="dash-name">there</span> 👋</h1>
+          <p id="last-check-label">Loading your dashboard…</p>
+        </div>
+
+        <div class="cards" id="stat-cards">
+          <div class="card accent">
+            <div class="card-icon">⚡</div>
+            <div class="card-label">Focus Score</div>
+            <div class="card-val" id="focus-score">—</div>
+            <div class="card-sub">out of 100</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🖱️</div>
+            <div class="card-label">Tab Switches Today</div>
+            <div class="card-val" id="tabs-today">—</div>
+            <div class="card-sub">from extension</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">⏱️</div>
+            <div class="card-label">Screen Time</div>
+            <div class="card-val" id="screen-mins">—</div>
+            <div class="card-sub">active minutes</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔮</div>
+            <div class="card-label">Predictions Made</div>
+            <div class="card-val" id="pred-count">—</div>
+            <div class="card-sub">total checks</div>
+          </div>
+        </div>
+
+        <div class="gauge-wrap" id="gauge-area" style="display:none">
+          <svg class="gauge-svg" width="140" height="90" viewBox="0 0 140 90">
+            <path d="M15 75 A55 55 0 0 1 125 75" fill="none" stroke="var(--bg3)" stroke-width="12" stroke-linecap="round"/>
+            <path id="gauge-fill" d="M15 75 A55 55 0 0 1 125 75" fill="none" stroke="#34d399" stroke-width="12" stroke-linecap="round"
+                  stroke-dasharray="172" stroke-dashoffset="172" style="transition:stroke-dashoffset .8s ease,stroke .8s ease"/>
+          </svg>
+          <div class="gauge-info">
+            <h3 id="gauge-level">—</h3>
+            <p id="gauge-sub">Run a prediction to see your stress level</p>
+            <div class="gauge-badges">
+              <span class="badge badge-low">Low 0–33</span>
+              <span class="badge badge-mod">Moderate 34–66</span>
+              <span class="badge badge-high">High 67–100</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="chart-card">
+            <h4>📈 7-Day Stress Trend</h4>
+            <canvas id="chart-trend"></canvas>
+          </div>
+          <div class="chart-card">
+            <h4>🎯 Stress Distribution</h4>
+            <canvas id="chart-dist"></canvas>
+          </div>
+        </div>
+
+        <div class="insights-card" id="insights-area" style="display:none">
+          <h4>💡 Smart Insights</h4>
+          <div id="insights-list"></div>
+        </div>
+      </div>
+
+      <!-- PREDICT PANE -->
+      <div id="pane-predict" class="dash-pane">
+        <div class="dash-header">
+          <h1>Check Your Stress</h1>
+          <p>Fill in your lifestyle data for today to get an AI-powered stress assessment.</p>
+        </div>
+        <div class="predict-form">
+          <h3>Today's Inputs</h3>
+          <div class="form-sub">Slide each value to match your day. Extension data is auto-filled if available.</div>
+          <div class="form-grid">
+            <div class="range-group"><label>Sleep Hours <span id="lbl-sleep">7</span>h</label><input type="range" id="r-sleep" min="0" max="12" step="0.5" value="7" oninput="updLbl(this,'lbl-sleep')"></div>
+            <div class="range-group"><label>Study Hours <span id="lbl-study">6</span>h</label><input type="range" id="r-study" min="0" max="18" step="0.5" value="6" oninput="updLbl(this,'lbl-study')"></div>
+            <div class="range-group"><label>Social Media <span id="lbl-social">2</span>h</label><input type="range" id="r-social" min="0" max="12" step="0.5" value="2" oninput="updLbl(this,'lbl-social')"></div>
+            <div class="range-group"><label>Screen Time <span id="lbl-screen">5</span>h</label><input type="range" id="r-screen" min="0" max="18" step="0.5" value="5" oninput="updLbl(this,'lbl-screen')"></div>
+            <div class="range-group"><label>Tab Switches <span id="lbl-tabs">0</span></label><input type="range" id="r-tabs" min="0" max="100" step="1" value="0" oninput="updLbl(this,'lbl-tabs')"></div>
+            <div class="range-group"><label>Active Minutes <span id="lbl-mins">0</span></label><input type="range" id="r-mins" min="0" max="600" step="5" value="0" oninput="updLbl(this,'lbl-mins')"></div>
+            <div class="range-group mood-group">
+              <label>Mood Level</label>
+              <div class="mood-btns">
+                <button class="mood-btn" data-v="1" onclick="selectMood(1)">😫 Very Stressed</button>
+                <button class="mood-btn" data-v="2" onclick="selectMood(2)">😟 Stressed</button>
+                <button class="mood-btn selected" data-v="3" onclick="selectMood(3)">😐 Neutral</button>
+                <button class="mood-btn" data-v="4" onclick="selectMood(4)">😊 Happy</button>
+                <button class="mood-btn" data-v="5" onclick="selectMood(5)">😄 Very Happy</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn-predict" id="btn-pred" onclick="doPrediction()">Analyse My Stress →</button>
+        </div>
+
+        <div class="result-card" id="result-card">
+          <div class="result-level" id="result-level"></div>
+          <div class="result-conf" id="result-conf"></div>
+          <div class="prob-bars" id="prob-bars"></div>
+          <div class="tips-card" style="margin:0;border:none;padding:0;background:none">
+            <h4 style="margin-bottom:12px">Recommendations</h4>
+            <div id="result-tips"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEHAVIOUR PANE -->
+      <div id="pane-behavior" class="dash-pane">
+        <div class="dash-header">
+          <h1>Behaviour Signals</h1>
+          <p>Data automatically synced from the MindScan Chrome Extension.</p>
+        </div>
+        <div class="behavior-grid">
+          <div class="beh-card">
+            <h4>Tab Switches Today</h4>
+            <div class="beh-val" id="beh-tabs">—</div>
+            <div class="beh-unit">context switches</div>
+          </div>
+          <div class="beh-card">
+            <h4>Active Minutes Today</h4>
+            <div class="beh-val" id="beh-mins">—</div>
+            <div class="beh-unit">screen-active mins</div>
+          </div>
+        </div>
+        <div class="chart-card" style="margin-bottom:20px">
+          <h4>🖥️ Behaviour Impact Guide</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">
+            <div style="background:var(--bg3);border-radius:10px;padding:16px">
+              <div style="font-size:13px;font-weight:600;margin-bottom:6px;color:var(--teal)">Tab Switches</div>
+              <div style="font-size:13px;color:var(--text2);line-height:1.6">
+                <strong style="color:var(--green)">&lt; 15</strong> — Focused<br>
+                <strong style="color:var(--amber)">15–30</strong> — Distracted<br>
+                <strong style="color:var(--red)">&gt; 30</strong> — Overloaded
+              </div>
+            </div>
+            <div style="background:var(--bg3);border-radius:10px;padding:16px">
+              <div style="font-size:13px;font-weight:600;margin-bottom:6px;color:var(--teal)">Active Minutes</div>
+              <div style="font-size:13px;color:var(--text2);line-height:1.6">
+                <strong style="color:var(--green)">&lt; 180</strong> — Balanced<br>
+                <strong style="color:var(--amber)">180–300</strong> — Fatiguing<br>
+                <strong style="color:var(--red)">&gt; 300</strong> — Burnout risk
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h4>ℹ️ Setup Chrome Extension</h4>
+          <p style="font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:12px">
+            Install the <strong>MindScan Chrome Extension</strong> to automatically track tab switches and active screen time. Then paste your API token in the extension popup.
+          </p>
+          <code style="font-size:12px;color:var(--teal);background:var(--bg3);padding:8px 12px;border-radius:8px;display:block">
+            Load /extension folder in chrome://extensions (Developer mode)
+          </code>
+        </div>
+      </div>
+
+      <!-- HISTORY PANE -->
+      <div id="pane-history" class="dash-pane">
+        <div class="dash-header">
+          <h1>Prediction History</h1>
+          <p>Your last 20 stress assessments.</p>
+        </div>
+        <div class="history-list" id="history-list">
+          <p style="color:var(--text3);font-size:14px">No predictions yet — run your first check!</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

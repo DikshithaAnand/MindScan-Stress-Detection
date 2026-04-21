@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Environment secrets — NEVER commit .env
+.env
+
+# ML model artifacts (regenerate with train_model.py)
+ml_model/stress_model.pkl
+
+# Data files — contain user data
+users.json
+behavior_logs.json
+prediction_history.json
+data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node (if adding a JS build step later)
+node_modules/
+npm-debug.log*
+
+# Docker
+.dockerignore

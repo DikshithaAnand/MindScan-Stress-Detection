@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Early-Stress Tracker</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="popup">
+  <div class="header">
+    <div class="logo">🧠 <span>Early-Stress</span></div>
+    <div class="status" id="status-dot" title="Connection status"></div>
+  </div>
+
+  <div id="consent-view" class="view hidden">
+    <p class="consent-text">
+      We collect <strong>tab switches</strong> and <strong>screen time</strong> only to improve your wellness insights.
+      No browsing content is stored or transmitted.
+    </p>
+    <p class="disclaimer">⚠️ This tool is not a medical diagnosis system.</p>
+    <button class="btn btn-primary" id="btn-accept">I Understand — Continue</button>
+  </div>
+
+  <div id="token-view" class="view hidden">
+    <p class="label">Paste your API token from the Early-Stress web app:</p>
+    <input type="password" id="token-input" placeholder="eyJ..." class="input">
+    <button class="btn btn-primary" id="btn-save-token">Save Token</button>
+  </div>
+
+  <div id="main-view" class="view hidden">
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-val" id="tab-count">—</div>
+        <div class="stat-label">Tab Switches</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="active-mins">—</div>
+        <div class="stat-label">Active Mins</div>
+      </div>
+    </div>
+
+    <div class="meta">
+      <span>Session start: <strong id="screen-start">—</strong></span>
+      <span id="last-sync-text" class="sync-time"></span>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="btn-sync">Sync Now</button>
+      <button class="btn btn-ghost" id="btn-reset">Reset Day</button>
+      <button class="btn btn-ghost" id="btn-change-token">Change Token</button>
+    </div>
+  </div>
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
