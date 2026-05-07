@@ -6,17 +6,51 @@
 
 ---
 
-## 📸 Features
+## ✨ Core Features
 
-| Feature | Description |
-|---|---|
-| 🤖 ML Prediction | Random Forest trained on 7 lifestyle signals |
-| 📊 Live Dashboard | Stress gauge, trend chart, focus score, distribution donut |
-| 🔌 Chrome Extension | Auto-tracks tab switches & active screen time |
-| 💡 Smart Insights | Human-friendly, contextual recommendations |
-| 🔐 JWT Auth | Secure login/signup with hashed passwords |
-| 📅 History | Rolling 30-prediction history with timestamps |
-| 🛡️ Privacy First | No browsing content collected; env-var secrets |
+### 🤖 AI-Powered Stress Prediction
+- Uses a Random Forest Machine Learning model
+- Predicts stress levels using lifestyle and behavioral patterns
+- Supports early stress identification
+
+---
+
+### 📊 Interactive Dashboard
+- Real-time stress visualization
+- Focus score tracking
+- Trend analysis charts
+- Prediction history monitoring
+
+---
+
+### 🔌 Smart Browser Tracking
+- Chrome extension for behavior monitoring
+- Tracks:
+  - Tab switching frequency
+  - Active screen time
+  - Attention patterns
+- Privacy-friendly tracking approach
+
+---
+
+### 🔐 Secure Authentication
+- JWT-based authentication system
+- Secure signup and login
+- Password hashing implementation
+
+---
+
+### 💡 Personalized Insights
+- Human-friendly stress analysis
+- Context-aware recommendations
+- Productivity and wellness guidance
+
+---
+
+### 🛡️ Privacy-Focused Design
+- No browsing content collection
+- Local environment variable protection
+- Minimal and secure data handling
 
 ---
 
