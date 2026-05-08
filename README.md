@@ -201,17 +201,74 @@ Full interactive docs: http://localhost:8000/docs
 
 ---
 
-## 🤖 ML Model Details
+## 🤖 Machine Learning Model Overview
 
-| Property | Value |
+MindScan uses a **Random Forest Machine Learning model** to analyze behavioral and lifestyle patterns for early stress prediction.  
+The system is optimized for fast inference, lightweight execution, and reliable stress-level classification using structured user activity data.
+
+---
+
+### 📊 Model Architecture
+
+| Component | Details |
 |---|---|
-| Algorithm | Random Forest Classifier (scikit-learn) |
-| Pipeline | StandardScaler → RandomForestClassifier |
-| Training samples | 4,000 synthetic |
-| Features | sleep_hours, study_hours, social_media_hours, screen_time, mood_level, tab_switches, active_minutes |
-| Classes | 0=Low, 1=Moderate, 2=High |
-| Typical accuracy | ~94% test, ~93% CV |
-| Saved format | `.pkl` via `pickle` |
+| **Algorithm** | Random Forest Classifier |
+| **ML Framework** | scikit-learn |
+| **Processing Pipeline** | StandardScaler → RandomForestClassifier |
+| **Dataset Size** | 4,000+ synthetic behavioral records |
+| **Prediction Categories** | Low Stress · Moderate Stress · High Stress |
+| **Model Storage** | `.pkl` format using Python Pickle |
+| **Inference Type** | Real-time prediction |
+
+---
+
+### 🧠 Behavioral Features Used
+
+The model evaluates stress levels using the following indicators:
+
+- 😴 Sleep Hours
+- 📚 Study Duration
+- 📱 Social Media Usage
+- 💻 Daily Screen Time
+- 😊 Mood Level
+- 🔄 Tab Switching Frequency
+- ⏱️ Active Working Minutes
+
+---
+
+### 📈 Performance Metrics
+
+| Metric | Result |
+|---|---|
+| **Test Accuracy** | ~94% |
+| **Cross Validation Accuracy** | ~93% |
+| **Prediction Speed** | Real-time |
+| **Optimization Goal** | Lightweight & Efficient Inference |
+
+---
+
+### 🔍 Stress Detection Logic
+
+| Behavioral Signal | Interpretation |
+|---|---|
+| Sleep < 6 Hours | Increased fatigue and stress risk |
+| Study Hours > 12 | Cognitive overload indication |
+| High Tab Switching | Attention fragmentation and distraction |
+| Excessive Active Time | Burnout and mental fatigue possibility |
+| High Social Media + Low Mood | Emotional stress pattern |
+
+---
+
+### 🎯 Model Objective
+
+The ML model is designed to:
+- Detect early stress-related behavior patterns
+- Provide intelligent wellness insights
+- Support productivity and mental wellness monitoring
+- Enable proactive stress awareness using behavioral analytics
+
+> MindScan is designed for educational and wellness assistance purposes and is not intended for clinical diagnosis.
+
 
 ### Stress Signal Logic
 
