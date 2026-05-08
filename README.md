@@ -1,427 +1,432 @@
 # 🧠 MindScan — AI-Powered Early Stress Detection Platform
 
-> Detect stress before it controls you. MindScan combines manual lifestyle inputs with automatic browser behaviour tracking to predict mental stress with a Random Forest ML model.
+> MindScan is an intelligent stress analysis platform that combines Machine Learning, behavioral tracking, and lifestyle monitoring to identify early stress patterns before they become serious.
 
-![Version](https://img.shields.io/badge/version-2.0.0-teal) ![Python](https://img.shields.io/badge/python-3.10%2B-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-0.111-green) ![License](https://img.shields.io/badge/license-MIT-yellow)
-
----
-
-## ✨ Core Features
-
-### 🤖 AI-Powered Stress Prediction
-- Uses a Random Forest Machine Learning model
-- Predicts stress levels using lifestyle and behavioral patterns
-- Supports early stress identification
+![Version](https://img.shields.io/badge/version-2.0.0-teal)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.111-green)
+![License](https://img.shields.io/badge/license-MIT-yellow)
 
 ---
 
-### 📊 Interactive Dashboard
-- Real-time stress visualization
-- Focus score tracking
+# 🌟 Project Overview
+
+MindScan is a full-stack AI-powered wellness platform designed to analyze user behavior, productivity patterns, and digital activity to predict stress levels using Machine Learning.
+
+The system combines:
+- Manual lifestyle inputs
+- Browser activity tracking
+- Behavioral analytics
+- Real-time ML prediction
+- Interactive dashboard visualization
+
+The platform focuses on early stress awareness using lightweight AI and privacy-friendly monitoring techniques.
+
+---
+
+# ✨ Core Features
+
+## 🤖 AI-Based Stress Prediction
+- Machine Learning powered stress analysis
+- Predicts Low, Moderate, and High stress levels
+- Uses behavioral and productivity indicators
+- Real-time prediction system
+
+---
+
+## 📊 Interactive Analytics Dashboard
+- Live stress monitoring
+- Focus score visualization
 - Trend analysis charts
-- Prediction history monitoring
+- Prediction history tracking
+- Behavioral analytics overview
 
 ---
 
-### 🔌 Smart Browser Tracking
-- Chrome extension for behavior monitoring
+## 🔌 Smart Browser Monitoring
+- Chrome extension integration
 - Tracks:
   - Tab switching frequency
   - Active screen time
-  - Attention patterns
-- Privacy-friendly tracking approach
-
----
-
-### 🔐 Secure Authentication
-- JWT-based authentication system
-- Secure signup and login
-- Password hashing implementation
-
----
-
-### 💡 Personalized Insights
-- Human-friendly stress analysis
-- Context-aware recommendations
-- Productivity and wellness guidance
-
----
-
-### 🛡️ Privacy-Focused Design
+  - Productivity behavior
 - No browsing content collection
-- Local environment variable protection
-- Minimal and secure data handling
 
 ---
 
-## 🗂️ Project Structure
+## 🔐 Secure Authentication System
+- JWT-based authentication
+- Secure signup and login flow
+- Password hashing implementation
+- Token-based session management
 
-```
+---
+
+## 💡 Personalized Wellness Insights
+- Intelligent stress recommendations
+- Productivity improvement suggestions
+- Context-aware behavioral insights
+- User-friendly wellness feedback
+
+---
+
+## 🛡️ Privacy-Focused Architecture
+- Minimal user data collection
+- Local environment variable protection
+- Secure backend communication
+- Privacy-first behavioral analysis
+
+---
+
+# 🗂️ Project Structure
+
+```text
 Early-Stress/
+│
 ├── backend/
-│   └── main.py              # FastAPI app — all routes
+│   └── main.py
+│
 ├── frontend/
-│   └── index.html           # Single-file SPA (Landing + Auth + Dashboard)
+│   └── index.html
+│
 ├── ml_model/
-│   ├── train_model.py       # Training script
-│   └── stress_model.pkl     # Generated model (run train_model.py)
+│   ├── train_model.py
+│   └── stress_model.pkl
+│
 ├── extension/
-│   ├── manifest.json        # Chrome Manifest v3
-│   ├── background.js        # Service worker — tracking + sync
-│   ├── popup.html           # Extension popup UI
-│   ├── popup.js             # Popup logic
-│   ├── content.js           # Visibility change listener
-│   └── styles.css           # Popup styles
+│   ├── manifest.json
+│   ├── background.js
+│   ├── popup.html
+│   ├── popup.js
+│   ├── content.js
+│   └── styles.css
+│
 ├── docs/
-│   └── api.md               # API reference
-├── .env.example             # Environment variable template
-├── requirements.txt         # Python dependencies
+├── requirements.txt
+├── .env.example
 └── README.md
 ```
 
 ---
 
-## ⚡ Quick Start (Local)
+# ⚙️ Tech Stack
 
-### Prerequisites
+## Frontend
+- HTML
+- CSS
+- JavaScript
+
+## Backend
+- FastAPI
+- Python
+
+## Machine Learning
+- scikit-learn
+- Random Forest Classifier
+- StandardScaler
+
+## Browser Extension
+- Chrome Extension API
+- Manifest V3
+
+---
+
+# ⚡ Local Installation Guide
+
+## ✅ Prerequisites
+
 - Python 3.10+
 - pip
-- A modern browser (Chrome for extension)
+- Google Chrome
+- Internet connection (initial setup only)
 
-### 1. Clone & Install
+---
+
+## 1️⃣ Clone the Repository
 
 ```bash
 git clone https://github.com/DikshithaAnand/Early-Stress.git
+
 cd Early-Stress
+```
+
+---
+
+## 2️⃣ Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment
+---
+
+## 3️⃣ Configure Environment Variables
 
 ```bash
 cp .env.example .env
-# Edit .env — at minimum, change SECRET_KEY to something random
 ```
 
-Generate a secure key:
+Generate a secure secret key:
+
 ```bash
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
-### 3. Train the ML Model
+Paste the generated key into the `.env` file.
+
+---
+
+## 4️⃣ Train the ML Model
 
 ```bash
 cd ml_model
+
 python train_model.py
-# Output: stress_model.pkl (saved in ml_model/)
+
 cd ..
 ```
 
-Expected output:
-```
+Expected Output:
+
+```text
 ✅ Test Accuracy : 94.xx%
-✅ CV Accuracy   : 93.xx% ± 1.xx%
-💾 Model saved → stress_model.pkl
+✅ CV Accuracy   : 93.xx%
+💾 Model saved successfully
 ```
 
-### 4. Run the Backend
+---
+
+## 5️⃣ Run the Backend Server
 
 ```bash
 cd backend
+
 uvicorn main:app --reload --port 8000
 ```
 
-API is live at: http://localhost:8000  
-Docs available at: http://localhost:8000/docs
+Backend URL:
 
-### 5. Open the Frontend
+```text
+http://localhost:8000
+```
+
+API Documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+## 6️⃣ Launch the Frontend
 
 ```bash
-# Simply open in your browser:
-open frontend/index.html
-# or on Linux:
-xdg-open frontend/index.html
-# or on Windows:
 start frontend/index.html
 ```
 
-> **Note:** The frontend talks to `http://localhost:8000` by default. Change the `API` constant at the top of the `<script>` section in `index.html` if your backend runs elsewhere.
+For Linux:
 
-### 6. Install the Chrome Extension (Optional)
+```bash
+xdg-open frontend/index.html
+```
 
-1. Open Chrome → `chrome://extensions`
-2. Enable **Developer mode** (top-right toggle)
-3. Click **Load unpacked**
-4. Select the `extension/` folder
-5. Click the MindScan extension icon in your toolbar
-6. Accept the privacy notice
-7. Log into the web app, copy your token from browser DevTools (`localStorage.ms_token`), and paste it into the extension popup
+For macOS:
+
+```bash
+open frontend/index.html
+```
 
 ---
 
-## 🔌 API Reference
+# 🔌 Chrome Extension Setup
 
-### Auth
+1. Open Chrome Browser
+2. Navigate to:
 
+```text
+chrome://extensions
 ```
+
+3. Enable Developer Mode
+4. Click **Load Unpacked**
+5. Select the `extension/` folder
+6. Pin the extension to the toolbar
+7. Login to the application
+8. Paste the authentication token into the extension popup
+
+---
+
+# 🔌 API Endpoints
+
+## Authentication
+
+```http
 POST /signup
-Body: { "name": "Alex", "email": "alex@email.com", "password": "secret" }
-
 POST /login
-Body: { "email": "alex@email.com", "password": "secret" }
-Returns: { "access_token": "...", "name": "Alex", "email": "..." }
 ```
-
-### Prediction
-
-```
-POST /predict   [Bearer token required]
-Body: {
-  "sleep_hours": 7,
-  "study_hours": 6,
-  "social_media_hours": 2,
-  "screen_time": 4,
-  "mood_level": 3,       // 1=Very Stressed … 5=Very Happy
-  "tab_switches": 12,    // from extension (optional)
-  "active_minutes": 120  // from extension (optional)
-}
-```
-
-### Dashboard & Behavior
-
-```
-GET  /dashboard-stats    [Bearer token required]
-GET  /history            [Bearer token required]
-POST /behavior-data      [Bearer token required]
-GET  /behavior-summary   [Bearer token required]
-GET  /me                 [Bearer token required]
-```
-
-Full interactive docs: http://localhost:8000/docs
 
 ---
 
-## 🤖 Machine Learning Model Overview
+## Prediction APIs
 
-MindScan uses a **Random Forest Machine Learning model** to analyze behavioral and lifestyle patterns for early stress prediction.  
-The system is optimized for fast inference, lightweight execution, and reliable stress-level classification using structured user activity data.
+```http
+POST /predict
+GET  /history
+GET  /dashboard-stats
+GET  /behavior-summary
+POST /behavior-data
+GET  /me
+```
 
 ---
 
-### 📊 Model Architecture
+# 🤖 Machine Learning Model Overview
+
+MindScan uses a Random Forest Machine Learning model to analyze behavioral and lifestyle patterns for early stress prediction.
+
+The model is optimized for:
+- Fast prediction speed
+- Lightweight inference
+- Behavioral analysis
+- Real-time stress classification
+
+---
+
+## 📊 Model Architecture
 
 | Component | Details |
 |---|---|
-| **Algorithm** | Random Forest Classifier |
-| **ML Framework** | scikit-learn |
-| **Processing Pipeline** | StandardScaler → RandomForestClassifier |
-| **Dataset Size** | 4,000+ synthetic behavioral records |
-| **Prediction Categories** | Low Stress · Moderate Stress · High Stress |
-| **Model Storage** | `.pkl` format using Python Pickle |
-| **Inference Type** | Real-time prediction |
+| Algorithm | Random Forest Classifier |
+| ML Framework | scikit-learn |
+| Pipeline | StandardScaler → RandomForestClassifier |
+| Dataset | 4,000+ synthetic records |
+| Prediction Classes | Low · Moderate · High Stress |
+| Storage Format | `.pkl` |
+| Inference | Real-time |
 
 ---
 
-### 🧠 Behavioral Features Used
+## 🧠 Behavioral Features
 
-The model evaluates stress levels using the following indicators:
-
-- 😴 Sleep Hours
-- 📚 Study Duration
-- 📱 Social Media Usage
-- 💻 Daily Screen Time
-- 😊 Mood Level
-- 🔄 Tab Switching Frequency
-- ⏱️ Active Working Minutes
+- Sleep Hours
+- Study Duration
+- Social Media Usage
+- Screen Time
+- Mood Level
+- Tab Switching Frequency
+- Active Working Minutes
 
 ---
 
-### 📈 Performance Metrics
+## 📈 Model Performance
 
-| Metric | Result |
+| Metric | Performance |
 |---|---|
-| **Test Accuracy** | ~94% |
-| **Cross Validation Accuracy** | ~93% |
-| **Prediction Speed** | Real-time |
-| **Optimization Goal** | Lightweight & Efficient Inference |
+| Test Accuracy | ~94% |
+| Cross Validation Accuracy | ~93% |
+| Prediction Speed | Real-time |
+| Optimization Goal | Lightweight Execution |
 
 ---
 
-### 🔍 Stress Detection Logic
+## 🔍 Stress Analysis Logic
 
 | Behavioral Signal | Interpretation |
 |---|---|
-| Sleep < 6 Hours | Increased fatigue and stress risk |
-| Study Hours > 12 | Cognitive overload indication |
-| High Tab Switching | Attention fragmentation and distraction |
-| Excessive Active Time | Burnout and mental fatigue possibility |
-| High Social Media + Low Mood | Emotional stress pattern |
+| Sleep < 6 Hours | Increased fatigue risk |
+| Study > 12 Hours | Cognitive overload |
+| High Tab Switching | Attention fragmentation |
+| Excessive Screen Activity | Burnout possibility |
+| Low Mood + High Social Media | Emotional stress indicator |
 
 ---
 
-### 🎯 Model Objective
+# 🔐 Security Features
 
-The ML model is designed to:
-- Detect early stress-related behavior patterns
-- Provide intelligent wellness insights
-- Support productivity and mental wellness monitoring
-- Enable proactive stress awareness using behavioral analytics
-
-> MindScan is designed for educational and wellness assistance purposes and is not intended for clinical diagnosis.
-
-
-### Stress Signal Logic
-
-| Signal | Interpretation |
-|---|---|
-| Sleep < 6h | Amplifies all stress signals |
-| Study > 12h | Cognitive overload risk |
-| Tab switches > 30 | Distraction / attention fragmentation |
-| Active minutes > 300 | Fatigue / burnout risk |
-| Social media > 4h + low mood | Emotional stress pattern |
+- SHA-256 password hashing
+- JWT-based authentication
+- Environment variable protection
+- Secure token management
+- Privacy-focused architecture
 
 ---
 
-## 🔐 Security Notes
+# 🚀 Deployment Options
 
-- Passwords are SHA-256 hashed (upgrade to bcrypt for production)
-- JWT is a custom HMAC-SHA256 implementation — use `python-jose` for production
-- `SECRET_KEY` must be set via environment variable (never hardcode)
-- CORS is `allow_origins=["*"]` — restrict to your domain in production
-- JSON file storage is dev-only — migrate to PostgreSQL/MongoDB for production
+## Cloud Deployment
+- Railway
+- Render
+- Vercel
+- Netlify
 
 ---
 
-## 🚀 Production Deployment
-
-### Option A — Railway / Render (Easiest)
-
-1. Push to GitHub
-2. Connect repo to [Railway](https://railway.app) or [Render](https://render.com)
-3. Set environment variables in the dashboard:
-   - `SECRET_KEY` — your secure random string
-   - `PORT` — 8000
-4. Set start command: `cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT`
-5. Deploy
-
-### Option B — VPS (Ubuntu)
+## Docker Deployment
 
 ```bash
-# Install dependencies
-sudo apt update && sudo apt install python3-pip nginx -y
-pip install -r requirements.txt
-
-# Run with gunicorn
-pip install gunicorn
-cd backend
-gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
-
-# Configure nginx as reverse proxy
-sudo nano /etc/nginx/sites-available/mindscan
-```
-
-Nginx config:
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-
-    location /api/ {
-        proxy_pass http://127.0.0.1:8000/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-
-    location / {
-        root /var/www/mindscan/frontend;
-        try_files $uri $uri/ /index.html;
-    }
-}
-```
-
-```bash
-sudo ln -s /etc/nginx/sites-available/mindscan /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl reload nginx
-```
-
-### Option C — Docker
-
-```bash
-# Build
 docker build -t mindscan-api ./backend
 
-# Run
-docker run -d \
-  -p 8000:8000 \
-  -e SECRET_KEY=your_secret_here \
-  -v $(pwd)/data:/app/data \
-  mindscan-api
+docker run -d -p 8000:8000 mindscan-api
 ```
 
-### Frontend Deployment (Vercel / Netlify)
+---
 
-1. Update the `API` constant in `frontend/index.html` to your production backend URL
-2. Deploy the `frontend/` folder to Vercel, Netlify, or any static host
+# 🔮 Future Improvements
+
+- 📱 Mobile Application
+- 🌍 Multi-language Support
+- 🧠 NLP-based Mood Journaling
+- ⌚ Wearable Device Integration
+- ☁️ Cloud Sync
+- 🔔 Smart Wellness Notifications
+- 👨‍⚕️ Therapist Dashboard
+- 📊 Real-world Model Retraining
 
 ---
 
-## 🔮 Future Roadmap
+# 🧑‍💻 Developer Notes
 
-### Near-term (v2.1)
-- [ ] **bcrypt passwords** — replace SHA-256
-- [ ] **python-jose JWT** — proper token library
-- [ ] **PostgreSQL storage** — replace JSON files
-- [ ] **Email verification** on signup
-- [ ] **Forgot password** flow
+## Run Tests
 
-### Mid-term (v3.0)
-- [ ] **Real training data** — export prediction logs → retrain pipeline
-- [ ] **Wearable integration** — Apple HealthKit / Google Fit sleep/HR data
-- [ ] **Daily check-in reminder** — push notifications
-- [ ] **Mood journal** — free-text entry with NLP sentiment analysis
-- [ ] **Team/cohort view** — anonymised aggregate stress for study groups
-
-### Long-term (v4.0)
-- [ ] **Mobile app** (React Native)
-- [ ] **Therapist portal** — optional professional oversight view
-- [ ] **Federated ML** — train on device, share only model gradients
-- [ ] **Multi-language support**
-
----
-
-## 🧑‍💻 Development Notes
-
-### Running Tests
 ```bash
-pip install pytest httpx
 pytest tests/
 ```
 
-### Linting
+---
+
+## Linting
+
 ```bash
-pip install ruff
 ruff check backend/
 ```
 
-### Regenerating the model
-```bash
-cd ml_model && python train_model.py
-# New stress_model.pkl replaces the old one
-# Restart the backend to hot-reload
-```
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
 
 ---
 
-## 📄 License
+# ⚠️ Disclaimer
 
-MIT — see [LICENSE](LICENSE)
+MindScan is developed for educational, research, and wellness assistance purposes only.
 
----
+This platform does not provide medical diagnosis or professional mental health treatment.
 
-## ⚠️ Disclaimer
-
-MindScan is a wellness tool built for educational and personal insight purposes. It is **not a medical device** and does not provide clinical diagnosis. If you are experiencing significant mental health challenges, please consult a qualified healthcare professional.
+If you are experiencing serious mental health concerns, please consult a qualified healthcare professional.
 
 ---
 
-*Built with ❤️ by Dikshitha Anand — upgraded to production-grade by MindScan v2*
+# 👩‍💻 Author
+
+## Dikshitha Anand
+Student Developer | AI & Machine Learning Enthusiast
+
+### Interests
+- Artificial Intelligence
+- Machine Learning
+- Backend Development
+- Behavioral Analytics
+- Local AI Systems
+
+⭐ If you found this project useful, consider giving it a star.
