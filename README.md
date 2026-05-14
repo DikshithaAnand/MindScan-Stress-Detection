@@ -11,16 +11,16 @@
 
 # 🌟 Project Overview
 
-MindScan is a full-stack AI-powered wellness platform designed to analyze user behavior, productivity patterns, and digital activity to predict stress levels using Machine Learning.
+MindScan is an AI-powered full-stack wellness platform that helps identify stress patterns through smart behavioral analysis and Machine Learning.
 
-The system combines:
-- Manual lifestyle inputs
-- Browser activity tracking
-- Behavioral analytics
-- Real-time ML prediction
-- Interactive dashboard visualization
+The platform integrates:
+- Lifestyle and productivity inputs
+- Browser activity monitoring
+- Behavioral pattern analysis
+- Real-time stress prediction
+- Interactive analytics dashboard
 
-The platform focuses on early stress awareness using lightweight AI and privacy-friendly monitoring techniques.
+MindScan is designed to promote early stress awareness using lightweight AI models and privacy-conscious tracking methods, enabling users to better understand and manage their digital well-being.
 
 ---
 
