@@ -431,4 +431,8 @@ Student Developer | AI & Machine Learning Enthusiast
 - Behavioral Analytics
 - Local AI Systems
 
+## Output Screenshots
+
+![Output1](Stress%20Prediction/1.png)
+
 ⭐ If you found this project useful, consider giving it a star.
