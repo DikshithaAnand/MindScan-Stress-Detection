@@ -445,6 +445,6 @@ Student Developer | AI & Machine Learning Enthusiast
 
 ![Output6](Stress%20Prediction/6.png)
 
-
+![Output7](Stress%20Prediction/7.png)
 
 ⭐ If you found this project useful, consider giving it a star.
