@@ -422,7 +422,10 @@ If you are experiencing severe stress, anxiety, or mental health concerns, pleas
 # 👩‍💻 Author
 
 ## Dikshitha Anand
-Student Developer | AI & Machine Learning Enthusiast
+Student Developer | Full Stack Development
+
+##Gangambika DV
+Student Developer 
 
 ### Interests
 - Artificial Intelligence
